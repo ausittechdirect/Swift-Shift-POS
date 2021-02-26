@@ -364,8 +364,6 @@
 
 
     const db = require('electron-db');
-    const path = require('path')
-    const location = path.join(__dirname, '')
 
     db.createTable('customers', location, (succ, msg) => {
       // succ - boolean, tells if the call is successful
