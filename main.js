@@ -1,12 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, screen  } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
 let mainWindow;
 
 function createWindow () {
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
+    //frame: false,
+    //fullscreen : true,
+    //fullscreenWindowTitle : true,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -51,3 +55,7 @@ autoUpdater.on('update-downloaded', () => {
 ipcMain.on('restart_app', () => {
   autoUpdater.quitAndInstall();
 });
+
+ipcMain.on('close-me', (evt, arg) => {
+  app.quit()
+})

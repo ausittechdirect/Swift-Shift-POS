@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <head>
-  <title>Electron Auto Update Example</title>
+  <title>Swift Shift POS</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://bootswatch.com/4/yeti/bootstrap.min.css" rel="stylesheet">
+
   <style>
     body {
       box-sizing: border-box;
       margin: 0;
-      padding: 20px;
+      padding: 0px;
       font-family: sans-serif;
       background-color: #eaeaea;
       text-align: center;
+      overflow: hidden;
     }
     #notification {
       position: fixed;
@@ -23,11 +29,282 @@
     .hidden {
       display: none;
     }
+    #version{
+      color: #ffffff;
+    }
+    .backone {
+        background-color: lightgrey;
+        height: 728px;
+        padding: 0px;
+    }
+    .backtwo{
+      background-color: grey;
+      height: 728px;
+      padding: 0px;
+    }
+    .backkeys{
+      background-color: lightyellow;
+      height: 728px;
+      padding: 0px;
+    }
+    .footback{
+      background-color: black;
+      height: 40px;
+    }
+    .journal{
+      background-color: black;
+      height: 60%;
+    }
+    .brandbut{
+      background-color: yellow;
+      width: 100%;
+      height: 20%;
+      margin: 0px;
+    }
+    .brandbuttwo{
+      background-color: green;
+      width: 100%;
+      height: 10%;
+      margin: 0px;
+    }
+    .keybut{
+      position: absolute;
+      background-color: red;
+      width: 10%;
+      height: 10%;
+      margin: 0px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      border: 2px solid #fff;
+    }
+    .keybut2{
+      background-color: purple;
+      width: 20%;
+      height: 20%;
+      margin: 0px;
+      float: left;
+    }
+    .butinner {
+      margin: 2px;
+    }
+    .plone{
+      left: 10%;
+    }
+    .pltwo{
+      left: 20%;
+    }
+    .plthree{
+      left: 30%;
+    }
+    .plfour{
+      left: 40%;
+    }
+    .plfive{
+    left: 50%;
+    }
+    .plsix{
+      left: 60%;
+    }
+    .plseven{
+    left: 70%;
+    }
+    .pleight{
+      left: 80%;
+    }
+    .plnine{
+      left: 90%;
+    }
+    .ptone{
+    top: 10%;
+    }
+    .pttwo{
+    top: 20%;
+    }
+    .ptthree{
+    top: 30%;
+    }
+    .ptfour{
+    top: 40%;
+    }
+    .ptfive{
+    top: 50%;
+    }
+    .ptsix{
+    top: 60%;
+    }
+    .ptseven{
+    top: 70%;
+    }
+    .pteight{
+    top: 80%;
+    }
+    .ptnine{
+    top: 90%;
+    }
   </style>
 </head>
 <body>
-  <h1>Electron Auto Update Example</h1>
-  <p id="version"></p>
+  <div class="container-fluid">
+    <section id="advancedDemo">
+     <div class="row">
+       <div id="appheight" class="col-lg-1 backone">
+         <div class="row brandbut">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row brandbut">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row brandbut">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row brandbuttwo">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row brandbuttwo">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row brandbuttwo">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row brandbuttwo">
+           <div class="my-auto mx-auto">
+             middle
+           </div>
+         </div>
+
+       </div>
+       <div id="appheighttwo" class="col-lg-3 backtwo">
+         <div class="journal">
+
+         </div>
+       </div>
+       <div id="appheightthree" class="col-lg-8 backkeys">
+         <div class="row keybut ">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut pltwo">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plthree">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plfour">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plfive">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plsix">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plseven">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut pleight">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plnine">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone ptone">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone pttwo">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut  ptthree">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone ptfour">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone ptfive">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone ptsix">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone ptseven">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone pteight">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+         <div class="row keybut plone ptnine">
+           <div class="butinner my-auto mx-auto">
+             middle
+           </div>
+         </div>
+
+
+
+
+       </div>
+     </div>
+     <div class="row">
+      <div class="col-lg-11 footback">
+        <button id="closeapp" >
+          Restart
+        </button>
+      </div>
+      <div class="col-lg-1 footback">
+        <p id="version"></p>
+      </div>
+     </div>
+    </section>
+  </div>
   <div id="notification" class="hidden">
     <p id="message"></p>
     <button id="close-button" onClick="closeNotification()">
@@ -38,12 +315,20 @@
     </button>
   </div>
   <script>
+  var h = window.innerHeight;
+  var h = h-40;
+  document.getElementById('appheight').style.setProperty('height', h+'px');
+  document.getElementById('appheighttwo').style.setProperty('height', h+'px');
+  document.getElementById('appheightthree').style.setProperty('height', h+'px');
+
+
+
     const { ipcRenderer } = require('electron');
     const version = document.getElementById('version');
     const notification = document.getElementById('notification');
     const message = document.getElementById('message');
     const restartButton = document.getElementById('restart-button');
-    
+
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
@@ -66,9 +351,42 @@
     function closeNotification() {
       notification.classList.add('hidden');
     }
-    
+
     function restartApp() {
+      alert('restart');
       ipcRenderer.send('restart_app');
     }
+
+    const closeApp = document.getElementById('closeapp');
+    closeApp.addEventListener('click', () => {
+        ipcRenderer.send('close-me')
+    });
+
+
+    const db = require('electron-db');
+    const path = require('path')
+    const location = path.join(__dirname, '')
+
+    db.createTable('customers', location, (succ, msg) => {
+      // succ - boolean, tells if the call is successful
+      if (succ) {
+        console.log(msg)
+      } else {
+        console.log('An error has occured. ' + msg)
+      }
+    })
+
+    let obj = new Object();
+
+obj.name = "Alexius Academia";
+obj.address = "Paco, Botolan, Zambales";
+
+if (db.valid('customers')) {
+  db.insertTableContent('customers', obj, (succ, msg) => {
+    // succ - boolean, tells if the call is successful
+    console.log("Success: " + succ);
+    console.log("Message: " + msg);
+  })
+}
   </script>
 </body>
