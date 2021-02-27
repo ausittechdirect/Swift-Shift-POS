@@ -20,11 +20,11 @@
     "electron-builder": "^20.44.4"
   },
   "dependencies": {
+    "@serialport/bindings": "^2.0.8",
     "@serialport/parser-readline": "^9.0.7",
     "electron-updater": "^4.3.5",
     "node-thermal-printer": "^4.1.2",
     "node-unifiapi": "0.0.54",
-    "serialport": "^7.1.5",
-    "@serialport/bindings": "^2.0.8"
+    "serialport": "^7.1.5"
   }
 }
