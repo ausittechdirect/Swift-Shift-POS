@@ -1,6 +1,6 @@
 {
   "name": "Swift-Shift-POS",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "",
   "main": "main.js",
   "repository": {
@@ -24,6 +24,7 @@
     "electron-updater": "^4.3.5",
     "node-thermal-printer": "^4.1.2",
     "node-unifiapi": "0.0.54",
-    "serialport": "^7.1.5"
+    "serialport": "^7.1.5",
+    "@serialport/bindings": "^2.0.8"
   }
 }
