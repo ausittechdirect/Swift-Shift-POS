@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://bootswatch.com/4/yeti/bootstrap.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" href="css/jkeyboard.css">
   <style>
     body {
       box-sizing: border-box;
@@ -26,6 +26,40 @@
       background-color: white;
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     }
+    /* Overlay */
+#simplemodal-overlay {background-color:#000;}
+
+/* Container */
+#simplemodal-container {height:100px; width:250px; color:#bbb; background-color:#333; border:4px solid #444; padding:12px;}
+#simplemodal-container .simplemodal-data {padding:8px;}
+#simplemodal-container code {background:#141414; border-left:3px solid #65B43D; color:#bbb; display:block; font-size:12px; margin-bottom:12px; padding:4px 6px 6px;}
+#simplemodal-container a {color:#ddd;}
+#simplemodal-container a.modalCloseImg {background:url(../img/basic/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
+#simplemodal-container h3 {color:#84b8d9;}
+.cancelno {
+
+    background: red;
+    color: #fff;
+    padding: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-right: 15px;
+
+}
+.cancelyes {
+
+    background: green;
+    color: #fff;
+    padding: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-right: 20px;
+
+}
     .hidden {
       display: none;
     }
@@ -52,8 +86,13 @@
       height: 40px;
     }
     .journal{
-      background-color: black;
-      height: 60%;
+      background-color: white;
+      height: 90%;
+      overflow-y: scroll;
+      background-image: url('logo.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: 90%;
     }
     .brandbut{
       background-color: yellow;
@@ -65,6 +104,12 @@
       background-color: green;
       width: 100%;
       height: 10%;
+      margin: 0px;
+    }
+    .brandbutfinal{
+      background-color: green;
+      width: 100%;
+      height: 30%;
       margin: 0px;
     }
     .keybut{
@@ -144,52 +189,128 @@
     }
   </style>
 </head>
-<body>
+<body onload="loadliccheck()">
+  <!-- CUSTOMER MODAL -->
+  <div id="customer-search-modal-content" style="display: none;">
+    <div class="customersearchpanel" style="width:100%; height:250px; background-color: lightgrey;" ></div>
+    <input type="text" id="customertempfield" style="width: 100%; height: 40px; font-size: 20px; margin-top: 5px;">
+    <div id="customerkeyboard"></div>
+
+    <span onclick="closecustomerpanel();" class="cancelno" style="width: 49% !important;
+  display: inline-block;
+  text-align: center; margin-top: 10px;margin-right:5px;">CLOSE</span><span onclick="findcust();"  class="cancelyes" style="width: 50% !important;
+  display: inline-block;
+  text-align: center; margin-top: 10px; margin-right: 0px;">ADD NEW CUSTOMER</span>
+
+    </div>
+  </div>
+  <!-- CUSTOMER MODAL -->
+  <!-- QTY MODAL -->
+  <div id="customer-modal-content" style="display: none;">
+    <input type="text" id="qtytempfield">
+    <div id="qtykeyboard"></div>
+    <span onclick="enterqty();"class="cancelyes" style="width: 100%;display: block;text-align: center;margin-top: 5px;">ENTER</span>
+    </div>
+  </div>
+  <!-- QTY MODAL -->
+  <!-- CANCEL SALE MODAL -->
+  <div id="basic-modal-content" style="display: none;text-align:center;">
+    <h5 style="color: #ffffff;">Are you sure your want to cancel the sale?</h5>
+    <div id="btns" style="margin-top: 20px;">
+    <span onclick="closecancelpanel();" class="cancelno">NO</span><span onclick="cancelsale();" data-dismiss="modal" aria-hidden="true" class="cancelyes">YES</span>
+    </div>
+  </div>
+  <!-- CANCEL SALE MODAL -->
+  <!-- CANCEL ITEM MODAL -->
+  <div id="cancel-item-modal-content" style="display: none;text-align:center;">
+      <h5 style="color: #ffffff;">Are you sure your want to remove the item?</h5>
+      <div id="btns" style="margin-top: 20px;">
+      <span onclick="closecancelitempanel();" class="cancelno">NO</span><span onclick="cancelitem();" class="cancelyes">YES</span>
+      </div>
+  </div>
+  <!-- CANCEL ITEM MODAL -->
+  <!-- PARKED SALES SAVE MODAL -->
+  <div id="table-save-modal-content" style="display: none;">
+    <input type="text" id="tabletempfield">
+    <div id="tablekeyboard"></div>
+    <span onclick="entertable();"class="cancelyes" style="width: 100%;display: block;text-align: center;margin-top: 5px;">ENTER</span>
+    </div>
+  </div>
+  <!-- PARKED SALES SAVE MODAL -->
+  <!-- PARKED SALES LOOKUP MODAL -->
+  <div id="table-lookup-modal-content" style="display: none;">
+
+        <button type="button" onclick="createvoucher();">Create Ticket</button>
+
+
+  </div>
+  <!-- PARKED SALES LOOKUP MODAL -->
+
   <div class="container-fluid">
     <section id="advancedDemo">
      <div class="row">
        <div id="appheight" class="col-lg-1 backone">
-         <div class="row brandbut">
+         <div onclick="customerpanel()" class="row brandbut" style="background: yellow; color: black; font-size: 20px;">
            <div class="my-auto mx-auto">
-             middle
+             CUSTOMER
            </div>
          </div>
-         <div class="row brandbut">
+         <div onclick="tablepanel($(this).text())" class="row brandbut parkkey" style="background: purple; color: white; font-size: 20px;">
            <div class="my-auto mx-auto">
-             middle
+             TABLES
            </div>
          </div>
-         <div class="row brandbut">
+         <div onclick="staffpanel()" class="row brandbuttwo" style="background: pink; color: black; font-size: 20px;">
            <div class="my-auto mx-auto">
-             middle
+             STAFF
            </div>
          </div>
-         <div class="row brandbuttwo">
+         <div class="row brandbuttwo" style="background: blue; color: white; font-size: 20px;">
            <div class="my-auto mx-auto">
-             middle
+             RECEIPT
            </div>
          </div>
-         <div class="row brandbuttwo">
+         <div onclick="opencancelpanel()" class="row brandbuttwo" style="background: red; color: white; font-size: 20px;">
            <div class="my-auto mx-auto">
-             middle
+             CANCEL
            </div>
          </div>
-         <div class="row brandbuttwo">
+         <div class="row brandbutfinal" style="background: green; color: white; font-size: 20px;">
            <div class="my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row brandbuttwo">
-           <div class="my-auto mx-auto">
-             middle
+             FINALISE
            </div>
          </div>
 
        </div>
        <div id="appheighttwo" class="col-lg-3 backtwo">
-         <div class="journal">
-
-         </div>
+         <div class="col-sm-12 journal" >
+           <div class="tablenum" style=" display: none;padding: 10px;padding-left: 0px;font-size: 20px;color:red; text-align: center;">---------------  <span></span>  ---------------</div>
+              <ul id="myid">
+              </ul>
+           </div>
+           <div style="
+           margin-top: 6px;
+           padding: 0px;
+           padding-left: 3px;
+           margin-bottom: 3px;
+           width: 68%;
+           float: left;">
+             <span style="font-size: 10px;">Barcode/QTY</span><br>
+           <input id="barcode" style="height: 35px;width: 100%;background: #fff; border: 1px;" value="">
+           </div>
+             <div class=" text-right" style="
+           color: #333;
+           font-size: 20px;
+           padding-left: 0px;
+           padding-right: 0px;
+           margin-left: 3px;
+           margin-right: -3px;
+           margin-bottom: 3px;
+           width: 30%;
+           float: left;">
+               <span style="font-size: 10px;">Total</span><br>
+             $<input type="text" disabled class="simpleCart_total" style="height: 35px;width: 85%;background:#fff;border: 1px;padding-left: 5px;margin-left: 4px;" value="0.00"></span>
+           </div>
        </div>
        <div id="appheightthree" class="col-lg-8 backkeys">
          <div class="row keybut ">
@@ -294,12 +415,20 @@
        </div>
      </div>
      <div class="row">
-      <div class="col-lg-11 footback">
+      <div class="col-sm-3 footback" style="text-align: left; font-size: 12px;">
+        <span style="background:gray;padding: 5px;color:#fff;" onclick="staffpanel()">Staff Member: </span><span style="padding-left: 10px;" id="staffmember"></span>
+      </div>
+      <div class="col-sm-3 footback" style="text-align: left; font-size: 12px;">
+        <span  style="background:gray;padding: 5px;color:#fff;"  onclick="customerpanel()">Customer: </span><span style="padding-left: 10px;" id="customerpanel"></span>
+      </div>
+      <div class="col-sm-3 storagedata footback" style="text-align: center; font-size: 12px; padding: 0px; color: #fff; line-height: 40px;">
         <button id="closeapp" >
           Restart
         </button>
       </div>
-      <div class="col-lg-1 footback">
+      <div id="digital-clock" class="col-sm-2 footback" data-toggle="modal" data-target="#settingsModal" style="text-align: right; font-size: 12px; color: #fff;">
+      </div>
+      <div id="updatenoti" class="col-lg-1 footback ">
         <p id="version"></p>
       </div>
      </div>
@@ -314,7 +443,15 @@
       Restart
     </button>
   </div>
-  <script>
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script type="text/javascript" src="./jquery.js"></script>
+  <script type="text/javascript" src="./jkeyboard.js"></script>
+  <script type="text/javascript" src="./pouchdb.min.js"></script>
+  <script type="text/javascript" src="./pouchdb.find.js"></script>
+  <script type='text/javascript' src='./jquery.simplemodal.js'></script>
+  <script src="./renderer.js"></script>
+  <script>if (window.module) module = window.module;
+
   var h = window.innerHeight;
   var h = h-40;
   document.getElementById('appheight').style.setProperty('height', h+'px');
@@ -344,6 +481,7 @@
     ipcRenderer.on('update_downloaded', () => {
       ipcRenderer.removeAllListeners('update_downloaded');
       message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      document.getElementById('updatenoti').style.setProperty('background', 'yellow');
       restartButton.classList.remove('hidden');
       notification.classList.remove('hidden');
     });
@@ -363,28 +501,5 @@
     });
 
 
-    const db = require('electron-db');
-
-    db.createTable('customers', location, (succ, msg) => {
-      // succ - boolean, tells if the call is successful
-      if (succ) {
-        console.log(msg)
-      } else {
-        console.log('An error has occured. ' + msg)
-      }
-    })
-
-    let obj = new Object();
-
-obj.name = "Alexius Academia";
-obj.address = "Paco, Botolan, Zambales";
-
-if (db.valid('customers')) {
-  db.insertTableContent('customers', obj, (succ, msg) => {
-    // succ - boolean, tells if the call is successful
-    console.log("Success: " + succ);
-    console.log("Message: " + msg);
-  })
-}
   </script>
 </body>
