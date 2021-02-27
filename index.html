@@ -245,7 +245,17 @@
 
   </div>
   <!-- PARKED SALES LOOKUP MODAL -->
+  <!-- PARKED SALES LOOKUP MODAL -->
+  <div id="settings-modal-content" style="display: none;">
 
+    <p id="message">No Updates Currently Available</p>
+    <button id="restart-button" onClick="restartApp()" class="hidden">
+      Restart
+    </button>
+
+
+  </div>
+  <!-- PARKED SALES LOOKUP MODAL -->
   <div class="container-fluid">
     <section id="advancedDemo">
      <div class="row">
@@ -428,21 +438,13 @@
       </div>
       <div id="digital-clock" class="col-sm-2 footback" data-toggle="modal" data-target="#settingsModal" style="text-align: right; font-size: 12px; color: #fff;">
       </div>
-      <div id="updatenoti" class="col-lg-1 footback ">
+      <div onclick="opensettingspanel()" id="updatenoti" class="col-lg-1 footback ">
         <p id="version"></p>
       </div>
      </div>
     </section>
   </div>
-  <div id="notification" class="hidden">
-    <p id="message"></p>
-    <button id="close-button" onClick="closeNotification()">
-      Close
-    </button>
-    <button id="restart-button" onClick="restartApp()" class="hidden">
-      Restart
-    </button>
-  </div>
+
   <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
   <script type="text/javascript" src="./jquery.js"></script>
   <script type="text/javascript" src="./jkeyboard.js"></script>
@@ -462,7 +464,6 @@
 
     const { ipcRenderer } = require('electron');
     const version = document.getElementById('version');
-    const notification = document.getElementById('notification');
     const message = document.getElementById('message');
     const restartButton = document.getElementById('restart-button');
 
@@ -475,20 +476,16 @@
     ipcRenderer.on('update_available', () => {
       ipcRenderer.removeAllListeners('update_available');
       message.innerText = 'A new update is available. Downloading now...';
-      notification.classList.remove('hidden');
     });
 
     ipcRenderer.on('update_downloaded', () => {
       ipcRenderer.removeAllListeners('update_downloaded');
       message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
       document.getElementById('updatenoti').style.setProperty('background', 'yellow');
+      document.getElementById('version').style.setProperty('color', 'black');
       restartButton.classList.remove('hidden');
-      notification.classList.remove('hidden');
     });
 
-    function closeNotification() {
-      notification.classList.add('hidden');
-    }
 
     function restartApp() {
       alert('restart');

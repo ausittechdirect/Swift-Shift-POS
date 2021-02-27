@@ -637,6 +637,17 @@ function printlastreceipt(){
   //OPEN STAFF PANEL END
 
 
+  //OPEN SETTINGS PANEL START
+
+  function opensettingspanel(){
+  	$('#settings-modal-content').modal({
+      		backdrop: 'static',
+      		keyboard: false
+  		});
+
+  };
+  //OPEN SETTINGS PANEL END
+
 
 
 
