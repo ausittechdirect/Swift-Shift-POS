@@ -14,8 +14,81 @@ var tablesdb = new PouchDB('http://localhost:5984/postables',{skipSetup: true,au
 //var tabledb = new PouchDB('http://192.168.0.99:5984/postable',{skipSetup: true,auth:{username:'admin',password:'admin',}});
 
 var ejtabledb = new PouchDB('http://localhost:5984/posqejtable',{skipSetup: true,auth:{username:'admin',password:'admin',},});
-const SerialPort = require('serialport')
-const Readline = require('@serialport/parser-readline')
+
+
+var Datastore = require('nedb')
+db = {};
+db.settings = new Datastore('settings.db');
+db.products = new Datastore('products.db');
+
+// You need to load each database (here we do it asynchronously)
+db.settings.loadDatabase();
+db.products.loadDatabase();
+
+var doc = { hello: 'world'
+               , n: 5
+               , today: new Date()
+               , nedbIsAwesome: true
+               , notthere: null
+               , notToBeSaved: undefined  // Will not be saved
+               , fruits: [ 'apple', 'orange', 'pear' ]
+               , infos: { name: 'nedb' }
+               };
+
+db.settings.insert(doc, function (err, newDoc) {   // Callback is optional
+  // newDoc is the newly inserted document, including its _id
+  // newDoc has no key called notToBeSaved since its value was undefined
+});
+
+
+db.settings.findOne({ hello: 'world' }, function (err, doc) {
+alert(doc.nedbIsAwesome);
+});
+
+rewireLoggingToElement(
+() => document.getElementById("log"),
+() => document.getElementById("log-container"), true);
+
+function rewireLoggingToElement(eleLocator, eleOverflowLocator, autoScroll) {
+fixLoggingFunc('log');
+fixLoggingFunc('debug');
+fixLoggingFunc('warn');
+fixLoggingFunc('error');
+fixLoggingFunc('info');
+
+    function fixLoggingFunc(name) {
+        console['old' + name] = console[name];
+        console[name] = function(...arguments) {
+            const output = produceOutput(name, arguments);
+            const eleLog = eleLocator();
+
+            if (autoScroll) {
+                const eleContainerLog = eleOverflowLocator();
+                const isScrolledToBottom = eleContainerLog.scrollHeight - eleContainerLog.clientHeight <= eleContainerLog.scrollTop + 1;
+                eleLog.innerHTML += output + "<br>";
+                if (isScrolledToBottom) {
+                    eleContainerLog.scrollTop = eleContainerLog.scrollHeight - eleContainerLog.clientHeight;
+                }
+            } else {
+                eleLog.innerHTML += output + "<br>";
+            }
+
+            console['old' + name].apply(undefined, arguments);
+        };
+    }
+
+    function produceOutput(name, args) {
+        return args.reduce((output, arg) => {
+            return output +
+                "<span class=\"log-" + (typeof arg) + " log-" + name + "\">" +
+                    (typeof arg === "object" && (JSON || {}).stringify ? JSON.stringify(arg) : arg) +
+                "</span>&nbsp;";
+        }, '');
+    }
+}
+
+
+
 const ThermalPrinter = require("node-thermal-printer").printer;
 const PrinterTypes = require("node-thermal-printer").types;
 
@@ -32,9 +105,9 @@ function printlastreceipt(){
 
   try {
   let execute = printer.execute()
-  console.error("Print done!");
+  console.log("Print done!");
   } catch (error) {
-  console.log("Print failed:", error);
+  console.error("Print failed:", error);
   }
 
       }
@@ -57,12 +130,9 @@ function printlastreceipt(){
     var voucher = done.data[0].code;
     alert(voucher);
   })
-    .catch(err => console.log('Error',err))
+    .catch(err => console.error('Error',err))
   })
-    .catch(err => console.log('Error',err))
-
-
-
+    .catch(err => console.error('Error',err))
 
         }
 
@@ -240,20 +310,18 @@ function printlastreceipt(){
   		if(minute == "55" && second == "00") {
              updateTemp();
           }
-
-          var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;
-
-           return dateTime;
+      var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;
+          return dateTime;
       }
 
       // example usage: realtime clock
       setInterval(function(){
-        alert('test');
           currentTime = getDateTime();
           document.getElementById("digital-clock").innerHTML = currentTime;
       }, 1000);
 
       function updateTemp(){
+        console.log('Update Temp');
   	   var apikey = "8c76c40f692047d5a1b5f35ade822168";
   	   var position =  "27.5670,151.8970";
   	   $.ajax({
@@ -487,6 +555,7 @@ function printlastreceipt(){
     parser.on('data', function (data) {
       var weight = data.toString('utf8');
       var weight = weight.replace("KG", "");
+      alert (weight);
       productsdb.get(id).then(function (doc) {
       var productSKU = doc.productSKU;
       var productName = doc.productName;
@@ -522,6 +591,32 @@ function printlastreceipt(){
 
   }
   //ADD PRODUCT TO SALE END
+function readserial(){
+   console.log('Trigger Serial')
+  const SerialPort = require('serialport');
+  const Readline = require('@serialport/parser-readline');
+  const port = new SerialPort("COM1", {baudRate:9600, dataBits:7, stopBits:1, parity:"even",autoOpen: false});
+  const parser = new Readline();
+  port.open(function (err) {
+  if (err) {
+  console.log('Error opening port: ', err.message)
+  }
+  });
+  port.write('<W>\r');
+  console.log('Port Write')
+  port.pipe(parser);
+  console.log('Parser Pipe')
+  parser.on('data', function (data) {
+    var weight = data.toString('utf8');
+    var weight = weight.replace("KG", "");
+    alert (weight);
+
+
+  port.close()
+  console.log('Port Close')
+  });
+
+}
 
   //OPEN CUSTOMER SEARCH PANEL START
 
@@ -641,8 +736,10 @@ function printlastreceipt(){
 
   function opensettingspanel(){
   	$('#settings-modal-content').modal({
-      		backdrop: 'static',
-      		keyboard: false
+      minHeight:400,
+      minWidth: 800,
+      backdrop: 'static',
+    	keyboard: false
   		});
 
   };

@@ -1,6 +1,6 @@
 {
   "name": "Swift-Shift-POS",
-  "version": "1.0.16",
+  "version": "1.0.30",
   "description": "",
   "main": "main.js",
   "repository": {
@@ -8,6 +8,7 @@
     "url": "https://github.com/ausittechdirect/Swift-Shift-POS.git"
   },
   "scripts": {
+    "install": "electron-rebuild",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "build": "electron-builder build --win --publish never",
@@ -17,12 +18,14 @@
   "license": "ISC",
   "devDependencies": {
     "electron": "^11.3.0",
-    "electron-builder": "^20.44.4"
+    "electron-builder": "^20.44.4",
+    "electron-rebuild": "^2.3.5"
   },
   "dependencies": {
     "@serialport/bindings": "^9.0.7",
     "@serialport/parser-readline": "^9.0.7",
     "electron-updater": "^4.3.5",
+    "nedb": "^1.8.0",
     "node-thermal-printer": "^4.1.2",
     "node-unifiapi": "0.0.54",
     "serialport": "^9.0.7"

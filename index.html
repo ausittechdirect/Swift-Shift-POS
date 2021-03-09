@@ -187,6 +187,14 @@
     .ptnine{
     top: 90%;
     }
+    #log-container { overflow: auto; height: 150px; }
+
+.log-warn { color: orange }
+.log-error { color: red }
+.log-info { color: skyblue }
+.log-log { color: silver }
+
+.log-warn, .log-error { font-weight: bold; }
   </style>
 </head>
 <body onload="loadliccheck()">
@@ -253,7 +261,7 @@
       Restart
     </button>
 
-
+<div id="log-container" style="width: 100%; height: 300px; overflow-y: scroll; background: lightyellow;text-align: left;"><pre id="log"></pre></div>
   </div>
   <!-- PARKED SALES LOOKUP MODAL -->
   <div class="container-fluid">
@@ -275,7 +283,7 @@
              STAFF
            </div>
          </div>
-         <div class="row brandbuttwo" style="background: blue; color: white; font-size: 20px;">
+         <div onclick="printlastreceipt()" class="row brandbuttwo" style="background: blue; color: white; font-size: 20px;">
            <div class="my-auto mx-auto">
              RECEIPT
            </div>
@@ -323,99 +331,14 @@
            </div>
        </div>
        <div id="appheightthree" class="col-lg-8 backkeys">
-         <div class="row keybut ">
+         <div id="p-13992" onclick="butblick()" class="row keybut ">
            <div class="butinner my-auto mx-auto">
              middle
            </div>
          </div>
-         <div class="row keybut plone">
+         <div onclick="readserial()" class="row keybut plone">
            <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut pltwo">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plthree">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plfour">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plfive">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plsix">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plseven">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut pleight">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plnine">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone ptone">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone pttwo">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut  ptthree">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone ptfour">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone ptfive">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone ptsix">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone ptseven">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone pteight">
-           <div class="butinner my-auto mx-auto">
-             middle
-           </div>
-         </div>
-         <div class="row keybut plone ptnine">
-           <div class="butinner my-auto mx-auto">
-             middle
+             Read Serial
            </div>
          </div>
 
@@ -425,20 +348,21 @@
        </div>
      </div>
      <div class="row">
+       <div id="digital-clock" class="col-sm-2 footback" data-toggle="modal" data-target="#settingsModal" style="text-align: left; font-size: 12px; color: #fff; line-height: 40px;">
+       </div>
       <div class="col-sm-3 footback" style="text-align: left; font-size: 12px;">
-        <span style="background:gray;padding: 5px;color:#fff;" onclick="staffpanel()">Staff Member: </span><span style="padding-left: 10px;" id="staffmember"></span>
+      <!--  <span style="background:gray;padding: 5px;color:#fff;" onclick="staffpanel()">Staff Member: </span><span style="padding-left: 10px;" id="staffmember"></span>-->
       </div>
       <div class="col-sm-3 footback" style="text-align: left; font-size: 12px;">
-        <span  style="background:gray;padding: 5px;color:#fff;"  onclick="customerpanel()">Customer: </span><span style="padding-left: 10px;" id="customerpanel"></span>
+      <!--  <span  style="background:gray;padding: 5px;color:#fff;"  onclick="customerpanel()">Customer: </span><span style="padding-left: 10px;" id="customerpanel"></span>-->
       </div>
       <div class="col-sm-3 storagedata footback" style="text-align: center; font-size: 12px; padding: 0px; color: #fff; line-height: 40px;">
         <button id="closeapp" >
           Restart
         </button>
       </div>
-      <div id="digital-clock" class="col-sm-2 footback" data-toggle="modal" data-target="#settingsModal" style="text-align: right; font-size: 12px; color: #fff;">
-      </div>
-      <div onclick="opensettingspanel()" id="updatenoti" class="col-lg-1 footback ">
+
+      <div onclick="opensettingspanel()" id="updatenoti" class="col-lg-1 footback " style="text-align: right; font-size: 12px; color: #fff; line-height: 40px;">
         <p id="version"></p>
       </div>
      </div>
@@ -473,18 +397,20 @@
       version.innerText = 'Version ' + arg.version;
     });
 
-    ipcRenderer.on('update_available', () => {
-      ipcRenderer.removeAllListeners('update_available');
-      message.innerText = 'A new update is available. Downloading now...';
-    });
 
     ipcRenderer.on('update_downloaded', () => {
+      console.log('Updates Available');
       ipcRenderer.removeAllListeners('update_downloaded');
       message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
       document.getElementById('updatenoti').style.setProperty('background', 'yellow');
       document.getElementById('version').style.setProperty('color', 'black');
       restartButton.classList.remove('hidden');
     });
+
+    ipcRenderer.on('checking_for_updates', () => {
+      console.log('Check For Updates');
+    });
+
 
 
     function restartApp() {
